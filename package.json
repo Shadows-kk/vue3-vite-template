@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.17",
+    "pinia-plugin-persistedstate": "^2.2.0",
     "screenfull": "^6.0.2",
     "unplugin-icons": "^0.14.8",
     "vue": "^3.2.37",

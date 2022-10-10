@@ -1,31 +1,27 @@
 <template>
   <div class="wrapper">
-    <el-menu
-      :data="menus"
-      :defaultActive="$route.path"
-      :collapse="collapse"
-      background-color="#202021"
-      text-color="#fff"
-      :collapse-transition="false"
-    >
+    <el-menu :data="menus" :defaultActive="$route.path" :collapse="collapse" background-color="#202021"
+      text-color="#fff" :collapse-transition="false">
       <template v-for="(item, i) in menus" :key="i">
         <el-sub-menu v-if="item[children]" :index="item[index]">
           <template #title>
-            <el-icon><component :is="item[icon]"></component></el-icon>
+            <el-icon>
+              <component :is="item[icon]"></component>
+            </el-icon>
             <span>{{ item[name] }}</span>
           </template>
-          <el-menu-item
-            v-for="item1 in item[children]"
-            :key="item1[index]"
-            :index="item1[index]"
-            @click="onMenuClick(item1)"
-          >
-            <el-icon><component :is="item1[icon]"></component></el-icon>
+          <el-menu-item v-for="item1 in item[children]" :key="item1[index]" :index="item1[index]"
+            @click="onMenuClick(item1)">
+            <el-icon>
+              <component :is="item1[icon]"></component>
+            </el-icon>
             <span style="margin-left: 7px">{{ item1[name] }}</span>
           </el-menu-item>
         </el-sub-menu>
         <el-menu-item v-else :index="item[index]" @click="onMenuClick(item)">
-          <el-icon><component :is="item[icon]"></component></el-icon>
+          <el-icon>
+            <component :is="item[icon]"></component>
+          </el-icon>
           <span>{{ item[name] }}</span>
         </el-menu-item>
       </template>
@@ -36,12 +32,15 @@
 <script setup>
 import { watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { menus } from '@/router/menu.js'
-import { useAppStore } from '@/pinia'
 import { set } from '@vueuse/core'
+
+import { useAppStore, useTagsStore } from "@/pinia"
+import { menus } from '@/router/menu.js'
+
 const router = useRouter()
 const route = useRoute()
 const appStore = useAppStore()
+const tagsStore = useTagsStore()
 let props = defineProps({
   collapse: {
     type: Boolean,
@@ -81,8 +80,10 @@ let props = defineProps({
   }
 })
 
-const onMenuClick = (path) => {
-  router.push(path.index)
+const onMenuClick = (item) => {
+  router.push(item.index)
+  const { index: path, meta: { title } } = item
+  tagsStore.addTagAction({ path, title })
 }
 const selectBreadcrumb = (routes) =>
   routes.map(({ path, meta: { title } }) => {
@@ -92,9 +93,13 @@ const setMenuKeys = (r) => {
   // console.log(r.matched)
   const currentMenu = selectBreadcrumb(r.matched)
   const tag = r.matched.slice(-1)[0]
+  // console.log(tag);
   appStore.setBreadcrumbList(currentMenu)
   // console.log(appStore.breadcrumbList)
-  // tagStore.addTag({ title: tag.meta.title, path: tag.path })
+  if (tag.path !== '/dashboard') {
+    tagsStore.addTagAction({ path: tag.path, title: tag.meta.title })
+  }
+
 }
 watch(route, setMenuKeys, {
   immediate: true,
@@ -108,20 +113,24 @@ watch(route, setMenuKeys, {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+
   .logo {
     height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
+
     .img {
       width: 1.5rem;
       height: 1.5rem;
     }
   }
+
   .el-menu {
     border: none;
   }
 }
+
 // 滚动条宽度设置为0
 .wrapper::-webkit-scrollbar {
   width: 0px;

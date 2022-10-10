@@ -41,25 +41,29 @@ let isCollapse = ref(false)
   width: 100%;
   height: 100%;
 }
+
 .el-header {
   height: 50px;
   padding: 0;
   border-bottom: 1px solid #eee;
 }
+
 .el-aside {
   height: 100vh;
   background-color: #202021;
 }
+
 .el-main {
   background-color: #f0f2f5;
   height: 100%;
   width: 100%;
   padding: 20px;
+
   .content {
     background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
-    height: 100%;
+    height: calc(100% - 38px);
     border-radius: 10px;
   }
 }

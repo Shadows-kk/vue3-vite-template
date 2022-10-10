@@ -5,10 +5,8 @@
     </div>
     <el-dropdown>
       <span class="el-dropdown-link">
-        <el-avatar
-          :size="30"
-          src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
-        />
+        <el-avatar :size="30"
+          src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" />
         <span class="name">{{ username }}</span>
       </span>
       <template #dropdown>
@@ -36,7 +34,7 @@ onMounted(() => {
 
 // 方法
 const getUserName = () => {
-  username.value = localCache.getCache('account') ?? 'user'
+  username.value = localCache.getCache('') ?? 'user'
 }
 const modelBtn = () => {
   dark.value = !dark.value
@@ -56,6 +54,7 @@ const logout = () => {
 .user-info {
   display: flex;
   align-items: center;
+
   // .switchTheme {
   //   font-size: 20px;
   //   position: relative;
@@ -67,6 +66,7 @@ const logout = () => {
   .el-dropdown-link {
     display: flex;
     align-items: center;
+
     .name {
       margin-left: 10px;
       // @include font_color("text-color");
