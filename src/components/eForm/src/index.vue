@@ -4,9 +4,10 @@
       ref="form"
       v-bind="$attrs"
       :model="model"
+      :label-width="70"
       :rules="rules"
       :validate-on-rule-change="false"
-      :inline="true"
+      :inline="isInline"
     >
       <template v-for="(item, index) in options" :key="index">
         <!-- 没有children -->
@@ -22,7 +23,7 @@
             v-model="model[item.prop]"
           ></component>
         </el-form-item>
-        <!-- 下拉多选框 -->
+        <!-- 下拉多选 -->
         <el-form-item
           v-if="item.children && item.children.length && item.multiple"
           :label="item.label"
@@ -45,7 +46,6 @@
             ></component>
           </component>
         </el-form-item>
-        <!-- 下拉单选 radio checkbox -->
         <el-form-item
           v-if="item.children && item.children.length && !item.multiple"
           :label="item.label"
@@ -77,7 +77,9 @@
 
 <script setup>
 import { ref, onMounted, watch } from "vue";
+
 import cloneDeep from "lodash/cloneDeep";
+
 const form = ref(null);
 const model = ref({});
 const rules = ref({});
@@ -86,6 +88,10 @@ const props = defineProps({
   options: {
     type: Array,
     required: true,
+  },
+  isInline: {
+    type: Boolean,
+    default: false,
   },
 });
 const shortcuts = ref();

@@ -11,6 +11,8 @@ import './style.css'
 import 'element-plus/dist/index.css'
 import 'virtual:svg-icons-register'
 
+import './mock'
+
 const app = createApp(App)
 app.use(router).use(components).use(pinia).component('svg-icon', svgIcon)
 app.use(ElementPlus, {
