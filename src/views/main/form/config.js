@@ -119,7 +119,7 @@ export const formOptions = [
   },
   {
     type: 'radio-group',
-    value: [],
+    value: '',
     label: '性别',
     prop: 'gender',
     attrs: {

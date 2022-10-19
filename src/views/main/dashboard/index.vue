@@ -8,8 +8,8 @@
 
 <style lang="scss" scoped>
 .wrapper {
-  width: 100%;
-  height: 100%;
+  width: calc(100vw - 200px);
+  height: 800px;
   display: flex;
   justify-content: center;
   align-items: center;

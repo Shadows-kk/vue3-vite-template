@@ -57,11 +57,15 @@ npm run prettier
         |-- main.js
         |-- assets
         |-- components  公共组件
-        |-- global      全局注册的方法和组件
-        |-- icons       svg图标
+        |-- config      公共配置文件
+        |-- directives  自定义指令
+        |-- hooks       抽离的公共逻辑,类似mixin
+        |-- layout      布局
+        |-- mock        模拟数据
+        |-- pinia
         |-- router      路由
         |-- service     axios的二次封装
-        |-- store       vuex
+        |-- style       主题样式
         |-- utils       工具类
         |-- views
             |-- login

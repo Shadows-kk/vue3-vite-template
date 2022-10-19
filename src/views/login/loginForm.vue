@@ -24,52 +24,46 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import useLogin from '@/pinia/login'
-import localCache from '@/utils/cache'
-import { accountLoginRequest } from '@/service/api/login'
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import useLogin from "@/pinia/modules/login";
+import localCache from "@/utils/cache";
+import { accountLoginRequest } from "@/service/api/login";
 
-const router = useRouter()
-let loginFormRef = ref()
+const router = useRouter();
+let loginFormRef = ref();
 let loginForm = reactive({
-  account: localCache.getCache('account') ?? '',
-  password: localCache.getCache('password') ?? ''
-})
+  account: localCache.getCache("account") ?? "",
+  password: localCache.getCache("password") ?? "",
+});
 let rules = reactive({
-  account: [{ required: true, message: '请输入用户名/工号', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-})
+  account: [{ required: true, message: "请输入用户名/工号", trigger: "blur" }],
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+});
 
 const login = () => {
   loginFormRef.value.validate((valid) => {
     if (valid) {
-      localCache.setCache('account', loginForm.account)
-      localCache.setCache('password', loginForm.password)
-      router.push('/')
-
-      // 调用登录接口
-      // accountLoginRequest(loginForm).then((res) => {
-      //   if (res.code === 200 && res.status) {
-      //     localCache.setCache("role", res.data.role);
-      //     localCache.setCache("dept", res.data.dept);
-      //     localCache.setCache("token", res.token);
-      //     // 3:开发 4:测试
-      //     if (res.data.dept === 3) {
-      //       if (res.data.role === "qd") {
-      //       } else {
-      //       }
-      //     } else if (res.data.dept === 4) {
-      //     }
-      //     router.push("/");
-      //   } else {
-      //     ElMessage.error(res.message);
-      //   }
-      // });
+      localCache.setCache("account", loginForm.account);
+      localCache.setCache("password", loginForm.password);
+      accountLoginRequest().then((res) => {
+        if (res.status === 200) {
+          ElMessage({
+            message: res.message,
+            type: "success",
+            duration: 800,
+          });
+          setTimeout(() => {
+            router.push("/");
+          }, 300);
+        }
+      });
+    } else {
+      ElMessage.error("登陆失败");
     }
-  })
-}
+  });
+};
 </script>
 
 <style lang="scss">
@@ -109,6 +103,7 @@ const login = () => {
     .login_btn {
       width: 300px;
       height: 36px;
+      cursor: pointer;
       line-height: 36px;
       text-align: center;
       margin: 0 auto;

@@ -1,0 +1,30 @@
+$themes: (
+  light: (
+    //背景色
+    background_color: #333,
+    // 主文本色
+    text-color: #0d2134,
+    //主显示区的背景色
+    content-color: #f0f2f5,
+    //导航栏顶部颜色
+    nav-menu-color: #fff,
+    //hover bg
+    hover-bg-color: #ddd,
+    //hover文本色
+    hover-text-color: #061b2d
+  ),
+  dark: (
+    //背景
+    background_color: #fff,
+    // 主文本色
+    text-color: #fff,
+    //主显示区的背景色
+    content-color: #011528,
+    //导航栏顶部颜色
+    nav-menu-color: #011528,
+    //选中项的bg
+    hover-bg-color: #011b31,
+    //选中项的文本色
+    hover-text-color: #eee
+  )
+);

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <e-table :data="tableData" :options="tableOptions" pagination stripe :height="700">
+    <e-table :data="tableData" pagination :options="tableOptions" :height="700">
       <template #action="{ scope }">
         <el-button type="primary" size="small" @click="editData(scope)">修改</el-button>
         <el-button type="danger" size="small" @click="deleteData(scope)">删除</el-button>
@@ -11,18 +11,19 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import axios from "axios";
+
 import { tableOptions } from "./config";
+import { getTableData } from "@/service/api/table";
 
 let tableData = ref([]);
 
 onMounted(() => {
-  getTableData();
+  getData();
 });
-const getTableData = () => {
-  axios.post("/api/tableList").then((res) => {
-    console.log(res.data);
-    tableData.value = res.data;
+// 获取表格数据
+const getData = () => {
+  getTableData({}).then((res) => {
+    tableData.value = res;
   });
 };
 const editData = () => {

@@ -38,6 +38,14 @@ export const menus = [
         meta: {
           title: 'svg'
         }
+      },
+      {
+        name: 'test',
+        index: '/demo/test',
+        icon: 'Menu',
+        meta: {
+          title: 'test'
+        }
       }
     ]
   }

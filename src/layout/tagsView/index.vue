@@ -1,5 +1,5 @@
 <script setup>
-import tagList from './tagList/index.vue'
+import tagList from "./tagList/index.vue";
 </script>
 <template>
   <div class="app-tagsview">
@@ -12,20 +12,19 @@ import tagList from './tagList/index.vue'
   width: 100%;
   height: 36px;
   line-height: 36px;
-  border-bottom: 1px solid var(--color-border-2);
+  // border-bottom: 1px solid var(--color-border-2);
   // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
-  background: var(--color-menu-light-bg);
+  // background: var(--color-menu-light-bg);
 
   .tags-wrap {
     padding-inline-start: 0;
 
-    &>li {
+    & > li {
       display: inline-block;
 
       &:first-of-type {
         // margin-left: 15px;
         // border-left: 1px solid var(--color-border-2);
-
       }
 
       &:last-of-type {
@@ -34,7 +33,6 @@ import tagList from './tagList/index.vue'
       }
 
       &.tag-home {
-
         .el-tag {
           background-color: #3794ff;
 

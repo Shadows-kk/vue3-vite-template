@@ -11,6 +11,11 @@
           <full-screen-cpn></full-screen-cpn>
         </li>
         <li>
+          <el-tooltip content="主题">
+            <el-button circle @click="hanleClick" :icon="Moon"></el-button>
+          </el-tooltip>
+        </li>
+        <li>
           <el-tooltip content="设置">
             <el-button class="nav-btn" circle @click="setVisible">
               <template #icon>
@@ -28,25 +33,53 @@
 </template>
 
 <script setup>
-import navBreadcrumb from './navBreadcrumb.vue'
-import userInfo from './userInfo.vue'
-import { useAppStore } from '@/pinia'
-const appStore = useAppStore()
+import navBreadcrumb from "./navBreadcrumb.vue";
+import userInfo from "./userInfo.vue";
+import { useAppStore } from "@/pinia";
+import { Moon } from "@element-plus/icons-vue";
+import { useDark, useToggle, set } from "@vueuse/core";
+import { ref, onMounted } from "vue";
+import localCache from "@/utils/cache";
+const appStore = useAppStore();
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
+
+const dark = ref(false);
+
+onMounted(() => {
+  window.document.documentElement.setAttribute(
+    "data-theme",
+    localCache.getCache("data-theme") || "light"
+  );
+});
+const hanleClick = () => {
+  // dark.value = !dark.value;
+  set(dark, !dark.value);
+
+  if (!dark.value) {
+    window.document.documentElement.setAttribute("data-theme", "dark");
+    localCache.setCache("data-theme", "dark");
+  } else {
+    window.document.documentElement.setAttribute("data-theme", "light");
+    localCache.setCache("data-theme", "light");
+  }
+  toggleDark();
+};
 let props = defineProps({
   collapse: {
     type: Boolean,
-    default: false
-  }
-})
-let emits = defineEmits(['update:collapse'])
+    default: false,
+  },
+});
+let emits = defineEmits(["update:collapse"]);
 const changeCollapse = () => {
   // 需要修改父组件的值
-  emits('update:collapse', !props.collapse)
-}
+  emits("update:collapse", !props.collapse);
+};
 
 const setVisible = () => {
-  appStore.updateSettings({ globalSettings: true })
-}
+  appStore.updateSettings({ globalSettings: true });
+};
 </script>
 
 <style scoped lang="scss">

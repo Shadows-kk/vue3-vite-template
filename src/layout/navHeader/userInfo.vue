@@ -1,12 +1,11 @@
 <template>
   <div class="user-info DarkModelPage">
-    <div class="switchTheme" @click="modelBtn">
-      <el-icon></el-icon>
-    </div>
     <el-dropdown>
       <span class="el-dropdown-link">
-        <el-avatar :size="30"
-          src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" />
+        <el-avatar
+          :size="30"
+          src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
+        />
         <span class="name">{{ username }}</span>
       </span>
       <template #dropdown>
@@ -21,33 +20,48 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import localCache from '@/utils/cache'
-import { useRouter } from 'vue-router'
-let username = ref('')
-const dark = ref(false)
-const router = useRouter()
+import { ref, onMounted } from "vue";
+import localCache from "@/utils/cache";
+import { useRouter } from "vue-router";
+
+import { accountLogout } from "@/service/api/login";
+
+let username = ref("");
+const dark = ref(false);
+const router = useRouter();
 onMounted(() => {
-  window.document.documentElement.setAttribute('data-theme', 'light')
-  getUserName()
-})
+  window.document.documentElement.setAttribute("data-theme", "light");
+  getUserName();
+});
 
 // 方法
 const getUserName = () => {
-  username.value = localCache.getCache('') ?? 'user'
-}
+  username.value = localCache.getCache("") ?? "user";
+};
 const modelBtn = () => {
-  dark.value = !dark.value
+  dark.value = !dark.value;
   if (dark.value) {
-    window.document.documentElement.setAttribute('data-theme', 'dark')
+    window.document.documentElement.setAttribute("data-theme", "dark");
   } else {
-    window.document.documentElement.setAttribute('data-theme', 'light')
+    window.document.documentElement.setAttribute("data-theme", "light");
   }
-}
+};
 const logout = () => {
-  localCache.deleteCache('token')
-  router.push('/login')
-}
+  localCache.deleteCache("token");
+  localCache.deleteCache("tags");
+  accountLogout().then((res) => {
+    if (res.status === 200) {
+      ElMessage({
+        message: res.message,
+        type: "success",
+        duration: 800,
+      });
+      setTimeout(() => {
+        router.push("/login");
+      }, 200);
+    }
+  });
+};
 </script>
 
 <style lang="scss" scoped>

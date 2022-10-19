@@ -1,3 +1,4 @@
+// 按钮级别权限控制
 import { useRuleMenu } from '@/pinia'
 const ruleMenu = useRuleMenu()
 function hasPermision(value, el = false) {

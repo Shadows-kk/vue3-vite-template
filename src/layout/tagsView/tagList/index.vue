@@ -1,8 +1,17 @@
 <template>
   <ul class="tags-wrap">
-    <li v-for="(tag, index) in tagList" :key="tag.path" @click="tagClick(tag)" :class="tagListCls(tag)">
+    <li
+      v-for="(tag, index) in tagList"
+      :key="tag.path"
+      @click="tagClick(tag)"
+      :class="tagListCls(tag)"
+    >
       <el-dropdown trigger="contextmenu" :style="{ display: 'block' }" class="tagItem">
-        <el-tag type="info" :closable="closable(tag)" @close="closeTag(tag)" :disable-transitions="false">
+        <el-tag
+          :closable="closable(tag)"
+          @close="closeTag(tag)"
+          :disable-transitions="false"
+        >
           <template v-if="tag.path === HomePath">
             <el-tooltip content="主页" placement="bottom" effect="dark">
               <div class="homeIcon">
@@ -11,7 +20,6 @@
                 </el-icon>
               </div>
             </el-tooltip>
-
           </template>
           <template v-else>{{ tag.title }}</template>
         </el-tag>
@@ -27,39 +35,40 @@
   </ul>
 </template>
 <script setup>
-import { computed, ref, reactive, watch } from "vue";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { storeToRefs } from 'pinia'
-
-import { set } from "@vueuse/core";
+import { storeToRefs } from "pinia";
 
 import { HomePath } from "@/config/constants";
-import { useTagsStore } from "@/pinia"
+import { useTagsStore } from "@/pinia";
 
 const router = useRouter();
-const tagsStore = useTagsStore()
-const pathname = computed(() => router.currentRoute.value.path)
-const { tagList } = storeToRefs(tagsStore)
-const tagListCls = (tag) => [{ 'tag-active': pathname.value === tag.path }, { 'tag-home': HomePath === tag.path }]
+const tagsStore = useTagsStore();
+const pathname = computed(() => router.currentRoute.value.path);
+const { tagList } = storeToRefs(tagsStore);
+const tagListCls = (tag) => [
+  { "tag-active": pathname.value === tag.path },
+  { "tag-home": HomePath === tag.path },
+];
 const closable = (tag) => tag.path !== HomePath;
 const tagChange = () => {
-  router.push(tagList.value[tagList.value.length - 1].path)
-}
+  router.push(tagList.value[tagList.value.length - 1].path);
+};
 const closeTag = (tag) => {
-  tagsStore.closeTagAction(tag)
-  tagChange()
-}
+  tagsStore.closeTagAction(tag);
+  tagChange();
+};
 const closeRight = (index) => {
-  tagsStore.closeRightTags(index)
-  tagChange()
-}
+  tagsStore.closeRightTags(index);
+  tagChange();
+};
 const closeAll = () => {
-  tagsStore.$reset()
-  tagChange()
-}
+  tagsStore.$reset();
+  tagChange();
+};
 const tagClick = (tag) => {
-  router.push(tag.path)
-}
+  router.push(tag.path);
+};
 </script>
 
 <style lang="scss">
@@ -78,12 +87,12 @@ const tagClick = (tag) => {
     border-radius: 10px;
     box-sizing: border-box;
     cursor: pointer;
-    background-color: #fff;
+
     vertical-align: inherit;
 
     .homeIcon {
       position: relative;
-      top: 4px
+      // top: 4px;
     }
 
     .el-tag {
@@ -91,7 +100,8 @@ const tagClick = (tag) => {
       height: 100% !important;
       padding: 0 20px;
       box-sizing: border-box;
-      background-color: #fff;
+      // background-color: #fff;
+      background-color: var(--left-bg-color);
       border: none;
       color: #333;
       font-size: 14px;
@@ -117,8 +127,6 @@ const tagClick = (tag) => {
         }
       }
     }
-
-
   }
 
   .tag-active {

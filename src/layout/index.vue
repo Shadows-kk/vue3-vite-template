@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <el-container class="main-content">
       <el-aside :width="isCollapse ? '60px' : '150px'">
         <nav-side :collapse="isCollapse"></nav-side>
@@ -28,12 +28,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import navSide from './navSide/index.vue'
-import navHeader from './navHeader/index.vue'
-import settings from './settings/index.vue'
-import tagsView from './tagsView/index.vue'
-let isCollapse = ref(false)
+import { ref } from "vue";
+import navSide from "./navSide/index.vue";
+import navHeader from "./navHeader/index.vue";
+import settings from "./settings/index.vue";
+import tagsView from "./tagsView/index.vue";
+let isCollapse = ref(false);
 </script>
 
 <style scoped lang="scss">
@@ -50,17 +50,19 @@ let isCollapse = ref(false)
 
 .el-aside {
   height: 100vh;
-  background-color: #202021;
+  // background-color: #202021;
+  background-color: var(--bg-color-dark) !important;
 }
 
 .el-main {
-  background-color: #f0f2f5;
+  // background-color: #f0f2f5;
   height: 100%;
   width: 100%;
   padding: 20px;
 
   .content {
-    background-color: #fff;
+    // background-color: #fff;
+    height: 100%;
     padding: 20px;
     box-sizing: border-box;
     height: calc(100% - 38px);

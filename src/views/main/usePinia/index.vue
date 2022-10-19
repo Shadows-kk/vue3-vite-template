@@ -14,32 +14,32 @@
 </template>
 
 <script setup>
-import { useCountStore } from '@/pinia'
-import { storeToRefs } from 'pinia'
-const countStore = useCountStore()
+import { useCountStore } from "@/pinia";
+import { storeToRefs } from "pinia";
+const countStore = useCountStore();
 // countStore中的内容不能直接解构，会失去响应式
-const { counter } = storeToRefs(countStore)
+const { counter } = storeToRefs(countStore);
 // 操作state
 const changeCount1 = () => {
   // 1.默认情况下可以通过实例进行读取和写入
-  countStore.counter++
-}
+  countStore.counter++;
+};
 const changeCount2 = () => {
   // 2.一次性修改多个状态
   countStore.$patch({
     counter: 999,
-    multi: 'world'
-  })
-}
+    multi: "world",
+  });
+};
 // 重置state
 const resetCount = () => {
-  countStore.$reset()
-}
+  countStore.$reset();
+};
 
 // actions操作
 const add2 = () => {
-  countStore.add2Count(2)
-}
+  countStore.add2Count(2);
+};
 </script>
 
 <style lang="scss" scoped></style>

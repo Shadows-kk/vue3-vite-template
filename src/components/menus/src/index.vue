@@ -7,10 +7,7 @@
       v-bind="$attrs"
     >
       <template v-for="(item, i) in data" :key="i">
-        <el-sub-menu
-          v-if="item[children] && item[children]"
-          :index="item[index]"
-        >
+        <el-sub-menu v-if="item[children] && item[children]" :index="item[index]">
           <template #title>
             <component
               v-if="item[icon]"
@@ -31,10 +28,7 @@
           </el-menu-item>
         </el-sub-menu>
         <el-menu-item v-else :index="item[index]">
-          <component
-            v-if="item[icon]"
-            :is="`el-icon-${toLine(item[icon])}`"
-          ></component>
+          <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
           <span>{{ item[name] }}</span>
         </el-menu-item>
       </template>
@@ -42,47 +36,46 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { PropType } from 'vue'
-import { toLine } from '../../../utils'
+<script setup>
+import { toLine } from "../../../utils";
 const props = defineProps({
   data: {
     type: [],
-    required: true
+    required: true,
   },
   // 默认选中菜单
   defaultActive: {
     type: String,
-    default: ''
+    default: "",
   },
   // 是否是路由模式
   router: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
   // 键名 不再限制传递过来的data字段
   // 1.菜单标题的键名
   name: {
     type: String,
-    default: 'name'
+    default: "name",
   },
   // 2.菜单标识的键名
   index: {
     type: String,
-    default: 'index'
+    default: "index",
   },
   // 3.菜单图标的键名
   icon: {
     type: String,
-    default: 'icon'
+    default: "icon",
   },
   // 4.菜单子菜单的键名
   children: {
     type: String,
-    default: 'children'
-  }
-})
+    default: "children",
+  },
+});
 </script>
 
 <style scoped>

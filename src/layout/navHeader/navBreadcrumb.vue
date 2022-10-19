@@ -10,10 +10,10 @@
   </div>
 </template>
 <script setup>
-import { computed } from 'vue'
-import { useAppStore } from '@/pinia'
-const appStore = useAppStore()
-const breadcrumbList = computed(() => appStore.breadcrumbList)
+import { computed } from "vue";
+import { useAppStore } from "@/pinia";
+const appStore = useAppStore();
+const breadcrumbList = computed(() => appStore.breadcrumbList);
 </script>
 
 <style lang="scss">

@@ -39,6 +39,14 @@ const routerConfig = [
         meta: {
           title: 'svg'
         }
+      },
+      {
+        path: '/demo/test',
+        name: 'useSvg',
+        component: () => import('@/views/main/test'),
+        meta: {
+          title: 'test'
+        }
       }
     ]
   }

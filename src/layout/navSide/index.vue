@@ -1,7 +1,13 @@
 <template>
   <div class="wrapper">
-    <el-menu :data="menus" :defaultActive="$route.path" :collapse="collapse" background-color="#202021"
-      text-color="#fff" :collapse-transition="false">
+    <el-menu
+      :data="menus"
+      :defaultActive="$route.path"
+      :collapse="collapse"
+      :collapse-transition="false"
+    >
+      <!-- text-color="#fff" -->
+      <!-- background-color="#202021" -->
       <template v-for="(item, i) in menus" :key="i">
         <el-sub-menu v-if="item[children]" :index="item[index]">
           <template #title>
@@ -10,8 +16,12 @@
             </el-icon>
             <span>{{ item[name] }}</span>
           </template>
-          <el-menu-item v-for="item1 in item[children]" :key="item1[index]" :index="item1[index]"
-            @click="onMenuClick(item1)">
+          <el-menu-item
+            v-for="item1 in item[children]"
+            :key="item1[index]"
+            :index="item1[index]"
+            @click="onMenuClick(item1)"
+          >
             <el-icon>
               <component :is="item1[icon]"></component>
             </el-icon>
@@ -30,81 +40,82 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { set } from '@vueuse/core'
+import { watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-import { useAppStore, useTagsStore } from "@/pinia"
-import { menus } from '@/router/menu.js'
+import { useAppStore, useTagsStore } from "@/pinia";
+import { menus } from "@/router/menu.js";
 
-const router = useRouter()
-const route = useRoute()
-const appStore = useAppStore()
-const tagsStore = useTagsStore()
+const router = useRouter();
+const route = useRoute();
+const appStore = useAppStore();
+const tagsStore = useTagsStore();
 let props = defineProps({
   collapse: {
     type: Boolean,
-    default: false
+    default: false,
   },
   // 默认选中菜单
   defaultActive: {
     type: String,
-    default: ''
+    default: "",
   },
   // 是否是路由模式
   router: {
     type: Boolean,
-    default: true
+    default: true,
   },
 
   // 键名 不再限制传递过来的data字段
   // 1.菜单标题的键名
   name: {
     type: String,
-    default: 'name'
+    default: "name",
   },
   // 2.菜单标识的键名
   index: {
     type: String,
-    default: 'index'
+    default: "index",
   },
   // 3.菜单图标的键名
   icon: {
     type: String,
-    default: 'icon'
+    default: "icon",
   },
   // 4.菜单子菜单的键名
   children: {
     type: String,
-    default: 'children'
-  }
-})
+    default: "children",
+  },
+});
 
 const onMenuClick = (item) => {
-  router.push(item.index)
-  const { index: path, meta: { title } } = item
-  tagsStore.addTagAction({ path, title })
-}
+  router.push(item.index);
+  const {
+    index: path,
+    meta: { title },
+  } = item;
+  tagsStore.addTagAction({ path, title });
+};
 const selectBreadcrumb = (routes) =>
   routes.map(({ path, meta: { title } }) => {
-    return { title, path }
-  })
+    return { title, path };
+  });
 const setMenuKeys = (r) => {
   // console.log(r.matched)
-  const currentMenu = selectBreadcrumb(r.matched)
-  const tag = r.matched.slice(-1)[0]
+  const currentMenu = selectBreadcrumb(r.matched);
+  const tag = r.matched.slice(-1)[0];
   // console.log(tag);
-  appStore.setBreadcrumbList(currentMenu)
+  appStore.setBreadcrumbList(currentMenu);
   // console.log(appStore.breadcrumbList)
-  if (tag.path !== '/dashboard') {
-    tagsStore.addTagAction({ path: tag.path, title: tag.meta.title })
+  if (tag.title) {
+    tagsStore.addTagAction({ path: tag.path, title: tag.meta.title });
   }
-
-}
+};
 watch(route, setMenuKeys, {
   immediate: true,
-  deep: true
-})
+  deep: true,
+});
 </script>
 
 <style scoped lang="scss">
@@ -113,6 +124,9 @@ watch(route, setMenuKeys, {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  ul {
+    height: 100%;
+  }
 
   .logo {
     height: 60px;
